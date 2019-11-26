@@ -233,9 +233,9 @@
       <ImportLibrary>.\Unicode_Debug/wordsdu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\wordsdu.lib
+      <Command>del /P ..\..\lib\wordsdu.lib
 copy Unicode_Debug\wordsdu.lib ..\..\lib\wordsdu.lib
-del ..\..\nlp\Unicode_Debug\wordsdu.dll
+del /P ..\..\nlp\Unicode_Debug\wordsdu.dll
 copy Unicode_Debug\wordsdu.dll ..\..\nlp\Unicode_Debug\wordsdu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -285,8 +285,10 @@ copy Unicode_Debug\wordsdu.dll ..\..\nlp\Unicode_Debug\wordsdu.dll</Command>
       <ImportLibrary>.\Unicode_Release/wordsu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\wordsu.lib
-copy Unicode_Release\wordsu.lib ..\..\lib\wordsu.lib</Command>
+      <Command>del /P ..\..\lib\wordsu.lib
+copy Unicode_Release\wordsu.lib ..\..\lib\wordsu.lib
+del /P ..\..\nlp\wordsu.dll
+copy Unicode_Release\wordsu.dll ..\..\lib\wordsu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

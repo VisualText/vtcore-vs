@@ -231,8 +231,10 @@
       <ImportLibrary>.\Unicode_Release/webu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\webu.lib
-copy Unicode_Release\webu.lib ..\..\lib\webu.lib</Command>
+      <Command>del /P ..\..\lib\webu.lib
+copy Unicode_Release\webu.lib ..\..\lib\webu.lib
+del /P ..\..\nlp\Unicode_Release\webu.dll
+copy Unicode_Release\webu.dll ..\..\nlp\Unicode_Release\webu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
@@ -281,9 +283,9 @@ copy Unicode_Release\webu.lib ..\..\lib\webu.lib</Command>
       <ImportLibrary>.\Unicode_Debug/webdu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\webdu.lib
+      <Command>del /P ..\..\lib\webdu.lib
 copy Unicode_Debug\webdu.lib ..\..\lib\webdu.lib
-del ..\..\nlp\Unicode_Debug\webdu.dll
+del /P ..\..\nlp\Unicode_Debug\webdu.dll
 copy Unicode_Debug\webdu.dll ..\..\nlp\Unicode_Debug\webdu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

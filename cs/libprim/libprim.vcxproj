@@ -186,9 +186,9 @@
       <ImportLibrary>.\Unicode_Debug/libprimdu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libprimdu.lib
+      <Command>del /P ..\..\lib\libprimdu.lib
 copy Unicode_Debug\libprimdu.lib ..\..\lib\libprimdu.lib
-del ..\..\nlp\Unicode_Debug\libprimdu.dll
+del /P ..\..\nlp\Unicode_Debug\libprimdu.dll
 copy Unicode_Debug\libprimdu.dll ..\..\nlp\Unicode_Debug\libprimdu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -240,8 +240,10 @@ copy Unicode_Debug\libprimdu.dll ..\..\nlp\Unicode_Debug\libprimdu.dll</Command>
       <ImportLibrary>.\Unicode_Release/libprimu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libprimu.lib
-copy Unicode_Release\libprimu.lib ..\..\lib\libprimu.lib</Command>
+      <Command>del /P ..\..\lib\libprimu.lib
+copy Unicode_Release\libprimu.lib ..\..\lib\libprimu.lib
+del /P ..\..\nlp\Unicode_Release\libprimu.dll
+copy Unicode_Release\libprimu.dll ..\..\nlp\Unicode_Release\libprimu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

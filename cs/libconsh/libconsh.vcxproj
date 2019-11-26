@@ -248,9 +248,9 @@
       <ImportLibrary>.\Unicode_Debug/libconshdu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libconshdu.lib
+      <Command>del /P ..\..\lib\libconshdu.lib
 copy Unicode_Debug\libconshdu.lib ..\..\lib\libconshdu.lib
-del ..\..\nlp\Unicode_Debug\libconshdu.dll
+del /P ..\..\nlp\Unicode_Debug\libconshdu.dll
 copy Unicode_Debug\libconshdu.dll ..\..\nlp\Unicode_Debug\libconshdu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -302,8 +302,10 @@ copy Unicode_Debug\libconshdu.dll ..\..\nlp\Unicode_Debug\libconshdu.dll</Comman
       <ImportLibrary>.\Unicode_Release/libconshu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libconshu.lib
-copy Unicode_Release\libconshu.lib ..\..\lib\libconshu.lib</Command>
+      <Command>del /P ..\..\lib\libconshu.lib
+copy Unicode_Release\libconshu.lib ..\..\lib\libconshu.lib
+del /P ..\..\nlp\Unicode_Release\libconshu.lib
+copy Unicode_Release\libconshu.lib ..\..\nlp\Unicode_Release\libconshu.lib</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

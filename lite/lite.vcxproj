@@ -245,12 +245,10 @@ copy Debug\lited.dll ..\..\vt3\lite.dll</Command>
       <ImportLibrary>.\Debug/lited.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\visualtext3\Debug\lited.dll
-copy Debug\lited.dll ..\..\visualtext3\Debug\lited.dll
-del ..\lib\lited.lib
+      <Command>del ..\lib\lited.lib
 copy Debug\lited.lib ..\lib\lited.lib
-del ..\..\vt3\lited.dll
-copy Debug\lited.dll ..\..\vt3\lited.dll</Command>
+del ..\nlp\Debug\lited.dll
+copy Debug\litedu.dll ..\nlp\Unicode_Debug\lited.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Release|Win32'">
@@ -301,7 +299,9 @@ copy Debug\lited.dll ..\..\vt3\lited.dll</Command>
     </Link>
     <PostBuildEvent>
       <Command>del ..\lib\liteu.lib
-copy Unicode_Release\liteu.lib ..\lib\liteu.lib</Command>
+copy Unicode_Release\liteu.lib ..\lib\liteu.lib
+del ..\nlp\Unicode_Release\liteu.dll
+copy Unicode_Release\liteu.dll ..\nlp\Unicode_Release\liteu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode_Debug|Win32'">
@@ -352,9 +352,9 @@ copy Unicode_Release\liteu.lib ..\lib\liteu.lib</Command>
       <ImportLibrary>.\Unicode_Debug/litedu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\lib\litedu.lib
+      <Command>del /P ..\lib\litedu.lib
 copy Unicode_Debug\litedu.lib ..\lib\litedu.lib
-del ..\nlp\Unicode_Debug\litedu.dll
+del /P ..\nlp\Unicode_Debug\litedu.dll
 copy Unicode_Debug\litedu.dll ..\nlp\Unicode_Debug\litedu.dll
 </Command>
     </PostBuildEvent>

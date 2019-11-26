@@ -96,9 +96,9 @@
       <ImportLibrary>.\Unicode_Debug/libStreamdu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libStreamdu.lib
+      <Command>del /P ..\..\lib\libStreamdu.lib
 copy Unicode_Debug\libStreamdu.lib ..\..\lib\libStreamdu.lib
-del ..\..\nlp\Unicode_Debug\libStreamdu.dll
+del /P ..\..\nlp\Unicode_Debug\libStreamdu.dll
 copy Unicode_Debug\libStreamdu.dll ..\..\nlp\Unicode_Debug\libStreamdu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -144,8 +144,10 @@ copy Unicode_Debug\libStreamdu.dll ..\..\nlp\Unicode_Debug\libStreamdu.dll</Comm
       <ImportLibrary>.\Unicode_Release/libStreamu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libStreamu.lib
-copy Unicode_Release\libStreamu.lib ..\..\lib\libStreamu.lib</Command>
+      <Command>del \P ..\..\lib\libStreamu.lib
+copy Unicode_Release\libStreamu.lib ..\..\lib\libStreamu.lib
+del \P ..\..\nlp\Unicode_Release\libStreamu.dll
+copy Unicode_Release\libStreamu.dll ..\..\nlp\Unicode_Release\libStreamu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

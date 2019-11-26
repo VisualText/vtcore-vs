@@ -248,9 +248,9 @@
       <ImportLibrary>.\Unicode_Debug/libkbmdu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libkbmdu.lib
+      <Command>del /P ..\..\lib\Unicode_Debug\libkbmdu.lib /q
 copy Unicode_Debug\libkbmdu.lib ..\..\lib\libkbmdu.lib
-del ..\..\nlp\Unicode_Debug\libkbmdu.dll
+del /P ..\..\nlp\Unicode_Debug\libkbmdu.dll /q
 copy Unicode_Debug\libkbmdu.dll ..\..\nlp\Unicode_Debug\libkbmdu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -300,8 +300,10 @@ copy Unicode_Debug\libkbmdu.dll ..\..\nlp\Unicode_Debug\libkbmdu.dll</Command>
       <ImportLibrary>.\Unicode_Release/libkbmu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del ..\..\lib\libkbmu.lib
-copy Unicode_Release\libkbmu.lib ..\..\lib\libkbmu.lib</Command>
+      <Command>del /P ..\..\lib\libkbmu.lib
+copy Unicode_Release\libkbmu.lib ..\..\lib\libkbmu.lib
+del /P ..\..\nlp\Unicode_Release\libkbmu.lib
+copy Unicode_Release\libkbmu.dll ..\..\nlp\Unicode_Release\libkbmu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
