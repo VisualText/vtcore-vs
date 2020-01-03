@@ -144,9 +144,9 @@ copy Unicode_Debug\libStreamdu.dll ..\..\nlp\Unicode_Debug\libStreamdu.dll</Comm
       <ImportLibrary>.\Unicode_Release/libStreamu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del \P ..\..\lib\libStreamu.lib
+      <Command>del ..\..\lib\libStreamu.lib
 copy Unicode_Release\libStreamu.lib ..\..\lib\libStreamu.lib
-del \P ..\..\nlp\Unicode_Release\libStreamu.dll
+del ..\..\nlp\Unicode_Release\libStreamu.dll
 copy Unicode_Release\libStreamu.dll ..\..\nlp\Unicode_Release\libStreamu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

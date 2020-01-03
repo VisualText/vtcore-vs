@@ -283,9 +283,7 @@ copy Unicode_Release\webu.dll ..\..\nlp\Unicode_Release\webu.dll</Command>
       <ImportLibrary>.\Unicode_Debug/webdu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del /P ..\..\lib\webdu.lib
-copy Unicode_Debug\webdu.lib ..\..\lib\webdu.lib
-del /P ..\..\nlp\Unicode_Debug\webdu.dll
+      <Command>del ..\..\lib\webdu.lib
 copy Unicode_Debug\webdu.dll ..\..\nlp\Unicode_Debug\webdu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

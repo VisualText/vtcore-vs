@@ -300,10 +300,10 @@ copy Unicode_Debug\libkbmdu.dll ..\..\nlp\Unicode_Debug\libkbmdu.dll</Command>
       <ImportLibrary>.\Unicode_Release/libkbmu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del /P ..\..\lib\libkbmu.lib
+      <Command>del ..\..\lib\libkbmu.lib
 copy Unicode_Release\libkbmu.lib ..\..\lib\libkbmu.lib
-del /P ..\..\nlp\Unicode_Release\libkbmu.lib
-copy Unicode_Release\libkbmu.dll ..\..\nlp\Unicode_Release\libkbmu.dll</Command>
+del ..\..\nlp\Unicode_Debug\libkbmu.dll
+copy Unicode_Debug\libkbmu.dll ..\..\nlp\Unicode_Debug\libkbmu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

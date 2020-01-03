@@ -285,10 +285,10 @@ copy Unicode_Debug\wordsdu.dll ..\..\nlp\Unicode_Debug\wordsdu.dll</Command>
       <ImportLibrary>.\Unicode_Release/wordsu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del /P ..\..\lib\wordsu.lib
+      <Command>del ..\..\lib\wordsu.lib
 copy Unicode_Release\wordsu.lib ..\..\lib\wordsu.lib
-del /P ..\..\nlp\wordsu.dll
-copy Unicode_Release\wordsu.dll ..\..\lib\wordsu.dll</Command>
+del ..\..\nlp\Unicode_Release\wordsu.dll
+copy Unicode_Release\wordsu.dll ..\..\nlp\Unicode_Release\wordsu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -31,7 +31,7 @@ using namespace std;
 
 #include "Uanalyze.h"
 
-bool cmdReadArgs(int,_TCHAR*argv[], /*UP*/_TCHAR*&,_TCHAR*&,_TCHAR*&,bool&,bool&,bool&);
+bool cmdReadArgs(int,_TCHAR*argv[], /*UP*/_TCHAR*&,_TCHAR[MAXSTR],_TCHAR*&,_TCHAR*&,bool&,bool&,bool&);
 void cmdHelpargs(_TCHAR*);
 
 #ifdef LINUX
@@ -49,21 +49,15 @@ int _tmain(
 //cerr = cout;                                          // HACK. // 10/18/98 AM.
 #endif
 
-//////////////////////////////////
-/// NAME OF CURRENT APP DIRECTORY
-//////////////////////////////////
-_TCHAR *anapath;
-anapath = _T("/dev/nlp/analyzers");      // TODO: REPLACE "App" WITH THE REAL DIRECTORY NAME.
-
 /////////////////////////////////////////////////
 // READ ARGUMENTS
 /////////////////////////////////////////////////
 // Need to get command line arguments and/or some kind of init file.
-_TCHAR *ananame=0, *input=0, *output=0;
+_TCHAR ananame[MAXSTR];
+ananame[0] = '\0';
+_TCHAR *anapath=0, *input=0, *output=0;
 bool develop = false;    	// Development mode.
 _TCHAR *sequence=0;
-_TCHAR anadir[MAXSTR];      // Directory for the application.
-anadir[0] = '\0';
 bool compiled=false;       	// Run compiled/interp analyzer.
 bool silent=false;			// No log/debug output files.
 
@@ -72,14 +66,13 @@ bool silent=false;			// No log/debug output files.
 /////////////////////////////////////////////////
 
 // Get analyzer name, input and output filenames from command line.
-if (!cmdReadArgs(argc,argv,ananame,input,output,develop,compiled,silent))
+if (!cmdReadArgs(argc,argv,anapath,ananame,input,output,develop,compiled,silent))
    exit(1);
 
 _t_cout << _T("\n[Current date: ") << today() << _T("]") << endl;
 
 _TCHAR *path = 0;
-_stprintf(anadir, _T("%s%c%s"), anapath,DIR_CH,ananame);
-_TCHAR *vtpath = _T("/dev/nlp");                                               // 08/28/02 AM.
+_TCHAR *vtpath = _T("C:\\dev\\vtcore-vs");                                               // 08/28/02 AM.
 _TCHAR rfbdir[MAXSTR];		    // Directory for VisualText data.   // 08/28/02 AM.
 rfbdir[0] = '\0';                                               // 08/28/02 AM.
 _stprintf(rfbdir, _T("%s%cdata%cRfb%cspec"),                          // 08/28/02 AM.
@@ -102,7 +95,7 @@ _TCHAR outfile[MAXSTR];
 _TCHAR outfileDir[MAXSTR];
 _TCHAR seqfile[MAXSTR];
 
-_stprintf(specdir, _T("%s%sspec"), anadir, DIR_STR);
+_stprintf(specdir, _T("%s%sspec"), anapath, DIR_STR);
 
 if (!input)
    input = _T("input.txt");         // Default.
@@ -113,9 +106,9 @@ if (!output)
 if (!sequence)
    sequence = _T("analyzer.seq");   // Default.
 
-_stprintf(infile, _T("%s%s%s"), anadir,DIR_STR,input);
-_stprintf(outfile, _T("%s%s%s"), anadir,DIR_STR,output);
-_stprintf(outfileDir, _T("%s%s%s"), anadir,DIR_STR,_T("output"));
+_stprintf(infile, _T("%s%s%s"), anapath,DIR_STR,input);
+_stprintf(outfile, _T("%s%s%s"), anapath,DIR_STR,output);
+_stprintf(outfileDir, _T("%s%s%s"), anapath,DIR_STR,_T("output"));
 _stprintf(seqfile, _T("%s%s%s"), specdir,DIR_STR,sequence);
 
 if (!path_exists(outfileDir))
@@ -125,18 +118,18 @@ if (!path_exists(outfileDir))
 #else
 	CreateDirectory(outfileDir,NULL);
 #endif
-	_t_cout << _T("[Creating output directory: ") << outfileDir << _T("]") << endl;
+	_t_cout << _T("[Creating output directory: ") << outfileDir << _T("]");
 	}
 
-if (!path_exists(anadir))
+if (!path_exists(anapath))
 	{
-	_t_cerr << _T("[Analyzer dir not found: ") << anadir << _T("]") << endl;
+	_t_cerr << _T("[Analyzer path not found: ") << anapath << _T("]");
 	return 0;
 	}
 
 if (!path_exists(infile))
 	{
-	_t_cerr << _T("[File/directory not found: ") << infile << _T("]") << endl;
+	_t_cerr << _T("[File/directory not found: ") << infile << _T("]");
 	return 0;
 	}
 
@@ -148,6 +141,7 @@ VTRun *vtrun = VTRun::makeVTRun(                               // 07/21/03 AM.
 	rfbdir,                 // VisualText dir for RFB spec.     // 08/28/02 AM.
 	true                    // Build silently.                  // 08/28/02 AM.
 	);
+//_t_cout << _T("[makeVTRun: after]");
 
 //ALIST *alist = (ALIST *)vtrun->alist_;                       // 07/21/03 AM.
 
@@ -159,16 +153,18 @@ VTRun *vtrun = VTRun::makeVTRun(                               // 07/21/03 AM.
 // NOTE: This init will dynamically load the user extensions dll at
 // anadir\user\debug\user.dll
 NLP *nlp = vtrun->makeNLP(                                     // 07/21/03 AM.
-                     anadir,ananame,develop,silent,compiled);  // 07/21/03 AM.
+                     anapath,ananame,develop,silent,compiled);  // 07/21/03 AM.
+//_t_cout << _T("[makeNLP: after]" << endl);
 
 /////////////////////////////////////////////////
 // SET UP THE KNOWLEDGE BASE
 /////////////////////////////////////////////////
 
 CG *cg = vtrun->makeCG(                                        // 07/21/03 AM.
-         anadir,
-         true,      // LOAD COMPILED KB IF POSSIBLE.
-			nlp);      // Associated analyzer object.             // 07/21/03 AM.
+    anapath,
+    true,      // LOAD COMPILED KB IF POSSIBLE.
+	nlp);      // Associated analyzer object.             // 07/21/03 AM.
+
 if (!cg)                                                       // 07/21/03 AM.
    {
    _t_cerr << _T("[Couldn't make knowledge base.]") << endl;          // 07/21/03 AM.
@@ -177,7 +173,7 @@ if (!cg)                                                       // 07/21/03 AM.
    return -1;
    }
 
-_t_cerr << _T("[Loaded knowledge base.]") << endl;          // 02/19/19 AM.
+//_t_cout << _T("[Loaded knowledge base.]") << endl;          // 02/19/19 AM.
 // Root of the KB hierarchy.
 CONCEPT *root = VTRun::getKBroot(cg);                          // 12/19/03 AM.
 
@@ -186,15 +182,15 @@ CONCEPT *root = VTRun::getKBroot(cg);                          // 12/19/03 AM.
 // BUILD ANALYZER APPLICATION
 /////////////////////////////////////////////////
 // Create an analyzer dynamically using the sequence file and rules files
-// under anadir\spec.
+// under anapath\spec.
 
-if (!nlp->make_analyzer(seqfile, anadir, develop,
+if (!nlp->make_analyzer(seqfile, anapath, develop,
 	silent,              // Debug/log file output.              // 06/16/02 AM.
    0,
    false,               // false == Don't compile during load.
    compiled))                    // Compiled/interp analyzer.
    {
-   _t_cerr << _T("[Couldn't build analyzer.]") << endl;
+   _t_cerr << _T("[Couldn't build analyzer.]");
    vtrun->deleteNLP(nlp);                                      // 07/21/03 AM.
    VTRun::deleteVTRun(vtrun);                                  // 07/21/03 AM.
    return -1;
@@ -237,7 +233,7 @@ _TCHAR obuf[MAXSTR];															// 05/11/02 AM.
 if (is_file(infile))      // Input is a single file.
    {
    // If input is from a buffer, specify its name and length.
-   nlp->analyze(infile, outfile, anadir, develop,
+   nlp->analyze(infile, outfile, anapath, develop,
       silent,        // Debug/log output files.                // 06/16/02 AM.
       0,            // Outdir.
       0,            // Input buffer.
@@ -251,7 +247,7 @@ if (is_file(infile))      // Input is a single file.
 else      // Develop mode not on.
    {
    // Analyze file, directory, or tree of directories.
-   analyze_path(nlp, infile, outfile, anadir,                 // 07/15/03 AM.
+   analyze_path(nlp, infile, outfile, anapath,                 // 07/15/03 AM.
 	               silent,0,compiled,&os,obuf,                 // 07/15/03 AM.
 						true);
    }
@@ -287,8 +283,9 @@ return 0;
 bool cmdReadArgs(
 	int argc,
 	_TCHAR *argv[],
-	_TCHAR* &ananame,	// Analzyer name
-	_TCHAR* &input,		// Input file from args.
+    _TCHAR* &anapath,	// Analzyer name
+    _TCHAR ananame[MAXSTR],	// Analzyer name
+    _TCHAR* &input,		// Input file from args.
 	_TCHAR* &output,	// Output file from args.
 	bool &develop,		// Development mode (output intermediate files).
 	bool &compiled,		// true - compiled ana. false=interp(DEFAULT).
@@ -303,7 +300,8 @@ bool f_out = false;
 bool flag  = false;
 bool compiledck = false;	// If compiled/interp arg seen.
 
-ananame = input = output = 0;
+anapath = input = output = 0;
+ananame[0] = '\0';
 develop = false;				// Default is not development mode.
 compiled = false;	// INTERP ANALYZER BY DEFAULT
 silent = false;	// Produce debug files, etc. by default.		// 06/16/02 AM.
@@ -312,14 +310,13 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 	{
 	// For each command line argument.
 	//*gout << "command arg=" << *parg << endl;
-	_t_cout << _T("\n[command arg: ") << *parg << _T("]") << endl;
+	_t_cout << _T("\n[command arg: ") << *parg << _T("]");
 	ptr = *parg;
 	if (*ptr == '/' || *ptr == '-')	// DOS or UNIX style arg.
 		{
 		if (flag)
 			{
-			_t_cerr << _T("[Error in command line args for ") << argv[0]
-						  << _T("]") << endl;
+			_t_cerr << _T("[Error in command line args for ") << argv[0] << _T("]");
 			return false;
 			}
 		++ptr;
@@ -328,7 +325,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 			cmdHelpargs(argv[0]);
 			return false;
 			}
-		else if (!strcmp_i(ptr, _T("ana")))
+		else if (!strcmp_i(ptr, _T("anapath")))
 			f_ana = flag = true;					// Expecting input file.
 		else if (!strcmp_i(ptr, _T("in")))
 			f_in = flag = true;					// Expecting input file.
@@ -338,7 +335,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 			{
 			if (silent)
 				{
-				_t_cerr << _T("[Ignoring /dev flag.]") << endl;
+				_t_cerr << _T("[Ignoring /dev flag.]");
 				develop = false;
 				}
 			else
@@ -348,7 +345,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 			{
 			if (develop)
 				{
-				_t_cerr << _T("[Ignoring /dev flag.]") << endl;
+				_t_cerr << _T("[Ignoring /dev flag.]");
 				develop = false;
 				}
 			silent = true;                                        // 06/16/02 AM.
@@ -356,7 +353,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 		else if (!strcmp_i(ptr, _T("interp")))	// Run interpreted analyzer.
 			{
 			if (compiledck)
-				_t_cerr << _T("[Ignoring extra /compiled or /interp flag.]") << endl;
+				_t_cerr << _T("[Ignoring extra /compiled or /interp flag.]");
 			else
 				{
 				compiledck = true;
@@ -366,7 +363,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 		else if (!strcmp_i(ptr, _T("compiled")))	// Run compiled analyzer.
 			{
 			if (compiledck)
-				_t_cerr << _T("[Ignoring extra /compiled or /interp flag.]") << endl;
+				_t_cerr << _T("[Ignoring extra /compiled or /interp flag.]");
 			else
 				{
 				compiledck = true;
@@ -378,24 +375,33 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 		{
 		if (f_ana)
 			{
-			if (ananame)
+			if (anapath)
 				{
-				_t_cerr << _T("[") << argv[0] << _T(": analyzer specified twice.]")
-						  << endl;
+                _t_cerr << _T("[") << argv[0] << _T(": analyzer specified twice.]");
 				cmdHelpargs(argv[0]);
 				return false;
 				}
 			// Grab value as input file.
-			ananame = ptr;
-			_t_cout << _T("\n[analyzer name: ") << ananame << _T("]") << endl;
+            anapath = ptr;
 			f_ana = flag = false;
-			}
+
+            _TCHAR* token;
+            _TCHAR anatokens[MAXSTR];
+            _stprintf(anatokens, anapath);
+            token = wcstok(anatokens, _T("\\"));
+            while (token != NULL)
+            {
+                _stprintf(ananame, token);
+                token = wcstok(NULL, _T("\\"));
+            }
+			_t_cout << _T("\n[analyzer path: ") << anapath << _T("]");
+            _t_cout << _T("\n[analyzer name: ") << ananame << _T("]");
+        }
 		else if (f_in)
 			{
 			if (input)
 				{
-				_t_cerr << _T("[") << argv[0] << _T(": Input file specified twice.]")
-						  << endl;
+				_t_cerr << _T("[") << argv[0] << _T(": Input file specified twice.]");
 				cmdHelpargs(argv[0]);
 				return false;
 				}
@@ -408,7 +414,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 			if (output)
 				{
 				_t_cerr << _T("[") << argv[0]
-						  << _T(": Output file specified twice.]") << endl;
+						  << _T(": Output file specified twice.]");
 				cmdHelpargs(argv[0]);
 				return false;
 				}
@@ -421,7 +427,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 		{
 			if (input && output)
 				{
-				_t_cerr << _T("[") << argv[0] << _T(": Extra arguments.]") << endl;
+				_t_cerr << _T("[") << argv[0] << _T(": Extra arguments.]");
 				cmdHelpargs(argv[0]);
 				return false;
 				}
@@ -446,7 +452,7 @@ for (--argc, parg = &(argv[1]); argc > 0; --argc, ++parg)
 void cmdHelpargs(_TCHAR *name)
 {
 _t_cout << name
-<< _T(" [/INTERP][/COMPILED] [/ANA ananame] [/IN infile] [/OUT outfile] [/DEV][/SILENT] [infile [outfile]]")
+<< _T(" [/INTERP][/COMPILED] [/ANAPATH anapath] [/IN infile] [/OUT outfile] [/DEV][/SILENT] [infile [outfile]]")
 	  << endl
 	  << _T("Note: /INTERP, the interpreted analyzer, is default.")
 	  << endl;

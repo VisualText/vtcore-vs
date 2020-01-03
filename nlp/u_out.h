@@ -10,6 +10,10 @@ All rights reserved.
 *
 *******************************************************************************/
 
+#ifndef _CRT_NON_CONFORMING_WCSTOK
+#define _CRT_NON_CONFORMING_WCSTOK
+#endif
+
 #ifndef U_OUT_H_
 #define U_OUT_H_
 

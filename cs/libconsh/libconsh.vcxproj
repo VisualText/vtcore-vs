@@ -302,10 +302,10 @@ copy Unicode_Debug\libconshdu.dll ..\..\nlp\Unicode_Debug\libconshdu.dll</Comman
       <ImportLibrary>.\Unicode_Release/libconshu.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>del /P ..\..\lib\libconshu.lib
+      <Command>del ..\..\lib\libconshu.lib
 copy Unicode_Release\libconshu.lib ..\..\lib\libconshu.lib
-del /P ..\..\nlp\Unicode_Release\libconshu.lib
-copy Unicode_Release\libconshu.lib ..\..\nlp\Unicode_Release\libconshu.lib</Command>
+del ..\..\nlp\Unicode_Debug\libconshu.dll
+copy Unicode_Debug\libconshu.dll ..\..\nlp\Unicode_Debug\libconshu.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
